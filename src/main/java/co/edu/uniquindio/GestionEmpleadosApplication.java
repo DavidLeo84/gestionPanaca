@@ -1,10 +1,16 @@
 package co.edu.uniquindio;
 
+import co.edu.uniquindio.model.Role;
+import co.edu.uniquindio.model.UserEntity;
+import co.edu.uniquindio.model.enums.ERole;
+import co.edu.uniquindio.repositories.UserRepository;
 import net.sf.jasperreports.engine.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -12,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @SpringBootApplication
 public class GestionEmpleadosApplication {
@@ -20,10 +27,17 @@ public class GestionEmpleadosApplication {
         SpringApplication.run(GestionEmpleadosApplication.class, args);
     }
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Bean
     CommandLineRunner init(){
+        /*
         return args -> {
+
 
             String destinationPath = "src" + File.separator +
                     "main" + File.separator +
@@ -56,5 +70,45 @@ public class GestionEmpleadosApplication {
             JasperExportManager.exportReportToPdfFile(print, destinationPath);
             System.out.println("Report Created Successfully");
         };
+
+             */
+
+       return args -> {
+           UserEntity userEntity1 = UserEntity
+                   .builder()
+                   .username("Leonardo")
+                   .password(passwordEncoder.encode("123456"))
+                   .roles(Set.of(Role.builder()
+                           .name(ERole.valueOf(ERole.ADMIN.name()))
+                           .build()))
+                   .build();
+
+
+           UserEntity userEntity2 = UserEntity
+                   .builder()
+                   .username("David")
+                   .password(passwordEncoder.encode("123456"))
+                   .roles(Set.of(Role.builder()
+                           .name(ERole.valueOf(ERole.AUXILIAR.name()))
+                           .build()))
+                   .build();
+
+
+           UserEntity userEntity3 = UserEntity
+                   .builder()
+                   .username("Pepito")
+                   .password(passwordEncoder.encode("123456"))
+                   .roles(Set.of(Role.builder()
+                           .name(ERole.valueOf(ERole.RECEPTION.name()))
+                           .build()))
+                   .build();
+
+
+           userRepository.save(userEntity1);
+           userRepository.save(userEntity2);
+           userRepository.save(userEntity3);
+
+
+       };
     }
 }

@@ -10,13 +10,14 @@ import org.hibernate.envers.Audited;
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity
-@Table(name = "departments")
 @Data
-@AllArgsConstructor
+@Entity
+//@Audited
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "departments")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Audited
+
 public class Department implements Serializable {
 
     @Id
@@ -27,6 +28,9 @@ public class Department implements Serializable {
     @Column(name = "department_name")
     private String departmentName;
 
-    @OneToMany
-    private Set<Employee> employees;
+    @OneToMany(mappedBy = "department")
+    private Set<EmployeeEntity> employees;
+
+    @OneToOne(mappedBy = "department")
+    private UserEntity userEntity;
 }

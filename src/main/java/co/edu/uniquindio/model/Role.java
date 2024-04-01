@@ -6,14 +6,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
-@Entity
-@Table(name = "roles")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Entity
 @Builder
-@Audited
+@ToString
+//@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "roles")
 public class Role {
 
     @Id

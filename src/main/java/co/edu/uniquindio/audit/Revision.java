@@ -11,9 +11,9 @@ import org.hibernate.envers.RevisionTimestamp;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-@Table(name="revision_info")
-@RevisionEntity(CustomRevisionListener.class)
+//@Entity
+//@Table(name="revision_info")
+//RevisionEntity(CustomRevisionListener.class)
 @Data
 public class Revision implements Serializable {
 

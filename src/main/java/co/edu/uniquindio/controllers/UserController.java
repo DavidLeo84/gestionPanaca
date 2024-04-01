@@ -1,8 +1,7 @@
 package co.edu.uniquindio.controllers;
 
 import co.edu.uniquindio.dto.CreateUserDTO;
-import co.edu.uniquindio.model.Role;
-import co.edu.uniquindio.model.UserEntity;
+import co.edu.uniquindio.model.*;
 import co.edu.uniquindio.model.enums.ERole;
 import co.edu.uniquindio.repositories.UserRepository;
 import jakarta.validation.Valid;
@@ -11,11 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -41,8 +41,16 @@ public class UserController {
                         .build())
                 .collect(Collectors.toSet());
 
+
         UserEntity userEntity = UserEntity
                 .builder()
+                .firstName("David Leonardo")
+                .lastname("Romero Marulanda")
+                .dni("9774676")
+                .numberPhone("3172345678")
+                .localNumberPhone("7374054")
+                .address(new Address("Armenia", "Guaduales de la villa", "mza 5 casa 29", "QUINDIO"))
+                .birthDate(LocalDate.of(1984,10,02))
                 .username(userDTO.username())
                 .password(passwordEncoder.encode(userDTO.password()))
                 .roles(roles)
