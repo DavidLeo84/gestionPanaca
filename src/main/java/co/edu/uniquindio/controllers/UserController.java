@@ -14,11 +14,11 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api")
+//@RestController
+//@RequestMapping("/api")
 public class UserController {
 
-    @Autowired
+   /* @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -65,5 +65,5 @@ public class UserController {
 
         userRepository.deleteById(id);
         return "Se ha borrado el usuario con id " + id;
-    }
+    }*/
 }

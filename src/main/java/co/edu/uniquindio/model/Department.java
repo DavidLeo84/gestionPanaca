@@ -1,10 +1,7 @@
 package co.edu.uniquindio.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
@@ -33,4 +30,11 @@ public class Department implements Serializable {
 
     @OneToOne(mappedBy = "department")
     private UserEntity userEntity;
+
+    @Builder
+    public Department(String departmentName) {
+        this.departmentName = departmentName;
+    }
 }
+
+

@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.File;
@@ -27,16 +28,14 @@ public class GestionEmpleadosApplication {
         SpringApplication.run(GestionEmpleadosApplication.class, args);
     }
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserRepository userRepository;
 
     @Bean
     CommandLineRunner init(){
-        /*
-        return args -> {
+
+        /*return args -> {
 
 
             String destinationPath = "src" + File.separator +
@@ -74,12 +73,15 @@ public class GestionEmpleadosApplication {
              */
 
        return args -> {
+
+           BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
            UserEntity userEntity1 = UserEntity
                    .builder()
                    .username("Leonardo")
                    .password(passwordEncoder.encode("123456"))
                    .roles(Set.of(Role.builder()
-                           .name(ERole.valueOf(ERole.ADMIN.name()))
+                           .name(ERole.valueOf(ERole.ADMINISTRATOR.name()))
                            .build()))
                    .build();
 

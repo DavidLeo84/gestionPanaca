@@ -1,5 +1,6 @@
 package co.edu.uniquindio.model;
 
+import co.edu.uniquindio.model.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -34,10 +35,12 @@ public class Person {
     private Address address;
 
     @Column(name = "birth_date")
-    private LocalDate birthDate;
+    private String birthDate;
+
+    private Status status;
 
     public Person(String firstName, String lastname, String dni, String numberPhone,
-                  String localNumberPhone, Address address, LocalDate birthDate) {
+                  String localNumberPhone, Address address, String birthDate, Status status) {
         this.firstName = firstName;
         this.lastname = lastname;
         this.dni = dni;
@@ -45,6 +48,7 @@ public class Person {
         this.localNumberPhone = localNumberPhone;
         this.address = address;
         this.birthDate = birthDate;
+        this.status = status;
     }
 
 }

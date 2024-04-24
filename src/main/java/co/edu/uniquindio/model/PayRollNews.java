@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "news")
-public class NewEntity implements Serializable {
+public class PayRollNews implements Serializable { // clase para novedades de nomina
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

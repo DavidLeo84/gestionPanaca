@@ -1,13 +1,11 @@
 package co.edu.uniquindio.model;
 
 
+import co.edu.uniquindio.model.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -46,13 +44,14 @@ public class UserEntity extends Person implements Serializable {
     private Set<Document> documentSet;
 
     @OneToMany(mappedBy = "userEntity")
-    private Set<NewEntity> newEntitySet;
+    private Set<PayRollNews> payRollNewsSet;
 
     @Builder
     public UserEntity(String firstName, String lastname, String dni, String numberPhone,
-                      String localNumberPhone, Address address, LocalDate birthDate, String username,
+                      String localNumberPhone, Address address, String birthDate, Status status,
+                      String username,
                       String password, Set<Role> roles) {
-        super(firstName, lastname, dni, numberPhone, localNumberPhone, address, birthDate);
+        super(firstName, lastname, dni, numberPhone, localNumberPhone, address, birthDate, status);
         this.username = username;
         this.password = password;
         this.roles = roles;

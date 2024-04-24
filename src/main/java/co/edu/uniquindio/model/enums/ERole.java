@@ -1,7 +1,7 @@
 package co.edu.uniquindio.model.enums;
 
 public enum ERole {
-    ADMIN,
+    ADMINISTRATOR,
     AUXILIAR,
     RECEPTION
 }

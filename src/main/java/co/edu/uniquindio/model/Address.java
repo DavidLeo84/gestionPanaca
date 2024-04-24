@@ -16,7 +16,8 @@ import java.util.HashSet;
 public class Address implements Serializable {
 //direccion de donde vive
     private String city; //ciudad
+    private String stateProvince; //Departamento de la ciudad
     private String suburb; //barrio donde vive
     private String streetAdress; //direccion de la casa
-    private String stateProvince; //Departamento de la ciudad
+
 }
