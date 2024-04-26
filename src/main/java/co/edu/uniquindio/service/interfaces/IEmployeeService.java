@@ -1,6 +1,6 @@
 package co.edu.uniquindio.service.interfaces;
 
-import co.edu.uniquindio.dto.DetailEmployeeDTO;
+import co.edu.uniquindio.dto.DetailsEmployeeDTO;
 import co.edu.uniquindio.dto.ItemEmployeeDTO;
 import co.edu.uniquindio.dto.RecordEmployeeDTO;
 import co.edu.uniquindio.dto.UpdateEmployeeDTO;
@@ -17,7 +17,7 @@ public interface IEmployeeService {
     void deleteEmployee(String dni) throws Exception;
     List<ItemEmployeeDTO> employeesListDepartment(String departmentName) throws Exception;
 
-    DetailEmployeeDTO getEmployee(String dni) throws Exception;
+    DetailsEmployeeDTO getEmployee(String dni) throws Exception;
 
 
 }

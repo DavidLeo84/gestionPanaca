@@ -2,6 +2,7 @@ package co.edu.uniquindio.validations;
 
 import co.edu.uniquindio.model.Department;
 import co.edu.uniquindio.model.EmployeeEntity;
+import co.edu.uniquindio.model.enums.Status;
 import co.edu.uniquindio.repositories.DepartmentRepository;
 import co.edu.uniquindio.repositories.EmployeeRepository;
 import co.edu.uniquindio.validations.exceptions.ResourceInvalidException;
@@ -25,7 +26,7 @@ public class EmployeeValidation {
 
         Optional<EmployeeEntity> optionalEmployee = employeeRepo.findByDni(dni);
 
-        if (optionalEmployee.isEmpty()) {
+        if (optionalEmployee.isEmpty() || optionalEmployee.get().getStatus().equals(Status.INACTIVE)) {
             throw new ResourceNotFoundException("No existe la persona el número de identificación " + dni);
         }
         EmployeeEntity employee = optionalEmployee.get();
@@ -35,7 +36,7 @@ public class EmployeeValidation {
     public void existEmployee(String dni) throws Exception {
 
         Optional<EmployeeEntity> optionalEmployee = employeeRepo.findByDni(dni);
-        if (!optionalEmployee.isPresent()) {
+        if (optionalEmployee.isPresent()) {
             throw new Exception("Ya se encuentra registrado un empleado con el numero de identificacion " + dni);
         }
     }
@@ -60,9 +61,15 @@ public class EmployeeValidation {
 
     public LocalDate stringFormatter(String date) throws Exception {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-        TemporalAccessor accessor = formatter.parse(date);
-        return LocalDate.from(accessor);
-
+        try {
+            String dateModificated = date.replaceAll("/", "-");
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+            TemporalAccessor accessor = formatter.parse(dateModificated);
+            return LocalDate.from(accessor);
+        }
+        catch (RuntimeException ex){
+            throw new RuntimeException("Error. La fecha de nacimiento o de contratación no son válidas");
+        }
     }
+
 }

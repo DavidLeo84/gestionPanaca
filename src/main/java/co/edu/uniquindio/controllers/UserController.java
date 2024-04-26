@@ -1,19 +1,5 @@
 package co.edu.uniquindio.controllers;
 
-import co.edu.uniquindio.dto.CreateUserDTO;
-import co.edu.uniquindio.model.*;
-import co.edu.uniquindio.model.enums.ERole;
-import co.edu.uniquindio.repositories.UserRepository;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 //@RestController
 //@RequestMapping("/api")
 public class UserController {
@@ -22,7 +8,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserEntityRepository userRepository;
 
     @GetMapping("/hello")
     public String hello(){

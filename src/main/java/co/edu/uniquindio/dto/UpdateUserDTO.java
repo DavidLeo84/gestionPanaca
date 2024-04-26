@@ -1,48 +1,35 @@
 package co.edu.uniquindio.dto;
 
 import co.edu.uniquindio.model.Address;
-import co.edu.uniquindio.model.Department;
-import jakarta.validation.constraints.Email;
+import co.edu.uniquindio.model.Role;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
+import java.util.Set;
 
-public record DetailEmployeeDTO(
+public record UpdateUserDTO(
 
-        String dni,
-
+        @NotNull
+        int id,
         @NotBlank
+        @Size(max = 20)
         String firstName,
-
         @NotBlank
-        String last_name,
-
+        @Size(max = 20)
+        String lastname,
         @NotBlank
-        String appointment,
-
+        @Size(max = 12)
+        String dni,
         @NotBlank
         @Size(max = 10)
         String numberPhone,
-
-        @NotBlank
         @Size(max = 10)
         String localNumberPhone,
-
+        @NotEmpty
         Address address,
-
         @NotBlank
-        LocalDate birthDate,
-
-        @Email
-        String email,
-
-        Department department,
-
-
-        @NotBlank
-        LocalDate hireDate
-
-
+        String birthDate
 ) {
 }

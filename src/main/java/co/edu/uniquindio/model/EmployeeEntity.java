@@ -25,6 +25,7 @@ public class EmployeeEntity extends Person implements Serializable {
     @Email
     @NotBlank
     @Size(max = 30)
+    @Column(nullable = false, length = 30, unique = true)
     private String email;
 
     @ManyToOne()
@@ -32,10 +33,11 @@ public class EmployeeEntity extends Person implements Serializable {
 
     private String appointment; //cargo que desempeña
 
+    @Column(name = "hire_date")
     private String hireDate; // fecha de contratacion
 
-    @ManyToOne
-    private UserEntity userEntity; // usuario
+//    @ManyToOne
+//    private UserEntity userEntity; // usuario
 
     @OneToOne
     private Document document; // documentos pdf

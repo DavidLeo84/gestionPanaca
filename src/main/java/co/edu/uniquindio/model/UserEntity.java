@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -25,35 +24,36 @@ public class UserEntity extends Person implements Serializable {
 
     @NotBlank
     @Size(max = 15)
-    private String username;
+    private String username; // nombre del usuario para iniciar sesion
 
     @NotBlank
-    private String password;
+    private String password; // contraseña para iniciar sesion
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles; // roles que cumple el usuario
 
-    @OneToMany(mappedBy = "userEntity")
-    private Set<EmployeeEntity> employeeSet;
+//    @OneToMany(mappedBy = "userEntity")
+//    private Set<EmployeeEntity> employeeSet; // lista de empleados a cargo
 
     @OneToOne
-    private Department department;
+    private Department department; // departamento al que pertenece el usuario
 
     @OneToMany(mappedBy = "userEntity")
-    private Set<Document> documentSet;
+    private Set<Document> documentSet; // lista de documentos que puede crear
 
     @OneToMany(mappedBy = "userEntity")
-    private Set<PayRollNews> payRollNewsSet;
+    private Set<PayRollNews> payRollNewsSet; // lista de novedades de nomina que realiza
 
     @Builder
     public UserEntity(String firstName, String lastname, String dni, String numberPhone,
                       String localNumberPhone, Address address, String birthDate, Status status,
                       String username,
-                      String password, Set<Role> roles) {
+                      String password, Set<Role> roles, Department department) {
         super(firstName, lastname, dni, numberPhone, localNumberPhone, address, birthDate, status);
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.department = department;
     }
 }

@@ -1,10 +1,7 @@
 package co.edu.uniquindio.model;
 
 import co.edu.uniquindio.model.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -37,6 +34,7 @@ public class Person {
     @Column(name = "birth_date")
     private String birthDate;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Person(String firstName, String lastname, String dni, String numberPhone,

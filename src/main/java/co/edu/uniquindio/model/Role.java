@@ -8,7 +8,7 @@ import org.hibernate.envers.Audited;
 
 @Data
 @Entity
-@Builder
+
 @ToString
 //@Audited
 @NoArgsConstructor
@@ -22,4 +22,9 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     private ERole name;
+
+    @Builder
+    public Role(ERole name) {
+        this.name = name;
+    }
 }

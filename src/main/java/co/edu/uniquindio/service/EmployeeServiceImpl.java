@@ -1,6 +1,6 @@
 package co.edu.uniquindio.service;
 
-import co.edu.uniquindio.dto.DetailEmployeeDTO;
+import co.edu.uniquindio.dto.DetailsEmployeeDTO;
 import co.edu.uniquindio.dto.ItemEmployeeDTO;
 import co.edu.uniquindio.dto.RecordEmployeeDTO;
 import co.edu.uniquindio.dto.UpdateEmployeeDTO;
@@ -8,15 +8,19 @@ import co.edu.uniquindio.model.Address;
 import co.edu.uniquindio.model.Department;
 import co.edu.uniquindio.model.EmployeeEntity;
 import co.edu.uniquindio.model.enums.Status;
+import co.edu.uniquindio.repositories.DepartmentRepository;
 import co.edu.uniquindio.repositories.EmployeeRepository;
 import co.edu.uniquindio.service.interfaces.IEmployeeService;
+import co.edu.uniquindio.validations.DepartmentValidation;
 import co.edu.uniquindio.validations.EmployeeValidation;
+import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,15 +29,16 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements IEmployeeService {
 
     private final EmployeeRepository employeeRepo;
-
-    @Autowired
-    private EmployeeValidation employeeValidation;
+    private final DepartmentRepository departmentRepo;
+    private final DepartmentValidation departmentValidation;
+    private final EmployeeValidation employeeValidation;
 
 
     @Override
     public EmployeeEntity recordEmployee(RecordEmployeeDTO employeeDTO) throws Exception {
 
         employeeValidation.existEmployee(employeeDTO.dni());
+        Department department = departmentValidation.findDepartment(employeeDTO.idDepartment());
         EmployeeEntity employee = EmployeeEntity.builder()
                 .dni(employeeDTO.dni())
                 .firstName(employeeDTO.firstName())
@@ -48,9 +53,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
                         .build())
                 .birthDate(employeeValidation.dateFormatter(employeeDTO.birthDate()))
                 .email(employeeDTO.email())
-                .department(Department.builder()
-                        .departmentName(employeeDTO.department().getDepartmentName())
-                        .build())
+                .department(department)
                 .appointment(employeeDTO.appointment())
                 .hireDate(employeeValidation.dateFormatter(employeeDTO.hireDate()))
                 .status(Status.ACTIVE)
@@ -66,7 +69,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
         employee.setFirstName(employeeDTO.firstName());
         employee.setLastname(employeeDTO.lastname());
         employee.setNumberPhone(employeeDTO.numberPhone());
-        employee.setNumberPhone(employeeDTO.localNumberPhone());
+        employee.setLocalNumberPhone(employeeDTO.localNumberPhone());
         employee.setAddress(employeeDTO.address());
         employeeRepo.save(employee);
         return employee;
@@ -94,11 +97,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
     }
 
     @Override
-    public DetailEmployeeDTO getEmployee(String dni) throws Exception {
+    public DetailsEmployeeDTO getEmployee(String dni) throws Exception {
 
         EmployeeEntity employee = employeeValidation.findEmployee(dni);
 
-        return new DetailEmployeeDTO(
+        return new DetailsEmployeeDTO(
                 employee.getDni(), employee.getFirstName(),
                 employee.getLastname(), employee.getAppointment(),
                 employee.getNumberPhone(), employee.getLocalNumberPhone(),
