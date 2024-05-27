@@ -1,6 +1,7 @@
 package co.edu.uniquindio.validations;
 
 import co.edu.uniquindio.model.Department;
+import co.edu.uniquindio.model.enums.Status;
 import co.edu.uniquindio.repositories.DepartmentRepository;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class DepartmentValidation {
 
         Optional<Department> departmentOptional = departmentRepo.findById(id);
 
-        if (departmentOptional.isEmpty()) {
+        if (departmentOptional.isEmpty() || departmentOptional.get().getStatus().equals(Status.INACTIVE)) {
             throw new ResourceNotFoundException("No existe departamento");
         }
         Department department = departmentOptional.get();

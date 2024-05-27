@@ -43,7 +43,7 @@ public class UserEntity extends Person implements Serializable {
     private Set<Document> documentSet; // lista de documentos que puede crear
 
     @OneToMany(mappedBy = "userEntity")
-    private Set<PayRollNews> payRollNewsSet; // lista de novedades de nomina que realiza
+    private Set<PayRollNew> payRollNewsSet; // lista de novedades de nomina que realiza
 
     @Builder
     public UserEntity(String firstName, String lastname, String dni, String numberPhone,

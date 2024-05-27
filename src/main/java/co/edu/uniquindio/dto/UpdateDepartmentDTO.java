@@ -9,9 +9,7 @@ public record UpdateDepartmentDTO(
         int idDepartment,
 
         @NonNull
-        String departmentName,
+        String departmentName
 
-        @NonNull
-        UserEntity userEntity
 ) {
 }

@@ -5,9 +5,9 @@ import co.edu.uniquindio.dto.ItemEmployeeDTO;
 import co.edu.uniquindio.dto.RecordEmployeeDTO;
 import co.edu.uniquindio.dto.UpdateEmployeeDTO;
 import co.edu.uniquindio.model.Address;
-import co.edu.uniquindio.model.Department;
 import co.edu.uniquindio.model.EmployeeEntity;
-import co.edu.uniquindio.repositories.EmployeeRepository;
+import co.edu.uniquindio.model.enums.Estate;
+import co.edu.uniquindio.model.enums.Municipalities;
 import co.edu.uniquindio.service.EmployeeServiceImpl;
 import co.edu.uniquindio.validations.EmployeeValidation;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
@@ -31,29 +31,28 @@ public class EmployeeEntityTest {
     @Autowired
     private EmployeeValidation employeeValidation;
 
-
     @Test
     //@Sql
     @DisplayName("Test para guardar o registrar un empleado")
-    public void recordEmployeeTest() throws Exception {
+    public void createEmployeeTest() throws Exception {
 
         // Given - Dado o condicion previa o configuración
         RecordEmployeeDTO employeeDTO = new RecordEmployeeDTO(
-                "5674765855",
-                "Leonardo",
-                "Marulanda",
-                "3172334353",
-                "6017432423",
-                new Address("Armenia", "Quindio", "Guaduales de la villa", "mza 4 casa 15"),
-                LocalDate.of(1988, 03, 14),
-                "bauhaus32@hotmail.com",
-                1,
+                "3242353246",
+                "David",
+                "Romero",
+                "3144653454",
+                "6014532424",
+                new Address(Municipalities.ARMENIA.name(), Estate.QUINDÍO.name(), "Los girasoles", "mza 10 casa 10"),
+                LocalDate.of(1984, 07, 23),
+                "davidromero@hotmail.com",
+                2,
                 "dev-junior",
-                LocalDate.of(2024, 04, 24)
+                LocalDate.of(2024, 04, 23)
         );
 
         // When - Acción o el comportamiento que se va a probar
-        EmployeeEntity employee = employeeService.recordEmployee(employeeDTO);
+        EmployeeEntity employee = employeeService.createEmployee(employeeDTO);
 
         //Then - Verificar la salida
         //System.out.println("employee.toString() = " + employee.toString());
@@ -103,7 +102,7 @@ public class EmployeeEntityTest {
         // Given - Dado o condicion previa o configuración
 
         // When - Acción o el comportamiento que se va a probar
-        DetailsEmployeeDTO employeeDTO = employeeService.getEmployee("12345664332");
+        DetailsEmployeeDTO employeeDTO = employeeService.getEmployee("3243253242");
 
         //Then - Verificar la salida
         //System.out.println("employeeDTO = " + employeeDTO.toString());
@@ -123,6 +122,5 @@ public class EmployeeEntityTest {
 
         //Then - Verificar la salida
         assertThrows(ResourceNotFoundException.class, () ->  employeeValidation.findEmployee("12345664332"));
-
     }
 }

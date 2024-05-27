@@ -1,10 +1,9 @@
-package co.edu.uniquindio.service;
+package co.edu.uniquindio.service.interfaces;
 
 import co.edu.uniquindio.dto.*;
 import co.edu.uniquindio.model.Department;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 @Service

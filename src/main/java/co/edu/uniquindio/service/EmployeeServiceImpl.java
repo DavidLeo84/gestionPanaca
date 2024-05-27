@@ -35,7 +35,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 
     @Override
-    public EmployeeEntity recordEmployee(RecordEmployeeDTO employeeDTO) throws Exception {
+    public EmployeeEntity createEmployee(RecordEmployeeDTO employeeDTO) throws Exception {
 
         employeeValidation.existEmployee(employeeDTO.dni());
         Department department = departmentValidation.findDepartment(employeeDTO.idDepartment());

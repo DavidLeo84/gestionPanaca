@@ -7,6 +7,7 @@ import co.edu.uniquindio.repositories.UserEntityRepository;
 import co.edu.uniquindio.security.jwt.JwtUtils;
 import co.edu.uniquindio.service.interfaces.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,9 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     private final UserEntityRepository userEntityRepository;
     private final JwtUtils jwtUtils;
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     @Override
     public TokenDTO signInUser(LoginDTO loginDTO) throws Exception {
         Optional<UserEntity> optionalUserEntity = userEntityRepository.findByUsername(loginDTO.username());
@@ -34,7 +37,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             throw new Exception("La contraseña es incorrecta");
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("rol", "ADMIN");
+        map.put("rol", "ADMINISTRATOR");
         map.put("nombre", userEntity.getUsername());
         map.put("id", userEntity.getId());
         return new TokenDTO( jwtUtils.generarToken(userEntity.getUsername(), map) );

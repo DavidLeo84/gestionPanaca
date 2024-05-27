@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public interface IEmployeeService {
 
-    EmployeeEntity recordEmployee(RecordEmployeeDTO employeeDTO) throws Exception;
+    EmployeeEntity createEmployee(RecordEmployeeDTO employeeDTO) throws Exception;
     EmployeeEntity updateEmployee(UpdateEmployeeDTO employeeDTO) throws Exception;
     void deleteEmployee(String dni) throws Exception;
     List<ItemEmployeeDTO> employeesListDepartment(String departmentName) throws Exception;

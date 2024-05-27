@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.List;
 
 
 @Data
@@ -42,8 +42,8 @@ public class EmployeeEntity extends Person implements Serializable {
     @OneToOne
     private Document document; // documentos pdf
 
-    @OneToOne(mappedBy = "employeeEntity")
-    private PayRollNews payRollNews;
+    @OneToMany(mappedBy = "employeeEntity")
+    private List<PayRollNew> payRollNewList;
 
     @Builder
     public EmployeeEntity(String firstName, String lastname, String dni, String numberPhone,

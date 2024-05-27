@@ -5,25 +5,24 @@ import co.edu.uniquindio.model.*;
 import co.edu.uniquindio.model.enums.Status;
 import co.edu.uniquindio.repositories.DepartmentRepository;
 import co.edu.uniquindio.repositories.UserEntityRepository;
+import co.edu.uniquindio.service.interfaces.IDepartmentService;
 import co.edu.uniquindio.validations.DepartmentValidation;
 import co.edu.uniquindio.validations.EmployeeValidation;
 import co.edu.uniquindio.validations.UserEntityValidation;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class DepartmentServiceImpl implements IDepartmentService{
+public class DepartmentServiceImpl implements IDepartmentService {
 
     private final DepartmentRepository departmentRepo;
     private final  UserEntityRepository userEntityRepo;
@@ -51,7 +50,6 @@ public class DepartmentServiceImpl implements IDepartmentService{
 
         Department department = departmentValidation.findDepartment(departmentDTO.idDepartment());
         department.setDepartmentName(departmentDTO.departmentName());
-        department.setUserEntity(departmentDTO.userEntity());
         departmentRepo.save(department);
         return department;
     }
@@ -60,6 +58,9 @@ public class DepartmentServiceImpl implements IDepartmentService{
     public void deleteDepartment(int id) throws Exception {
 
         Department department = departmentValidation.findDepartment(id);
+        UserEntity userEntity = userEntityValidation.findUserEntity(department.getUserEntity().getId());
+        userEntity.setStatus(Status.INACTIVE);
+        userEntityRepo.save(userEntity);
         department.setStatus(Status.INACTIVE);
         departmentRepo.save(department);
     }

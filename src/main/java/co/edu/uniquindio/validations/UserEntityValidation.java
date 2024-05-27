@@ -1,7 +1,7 @@
 package co.edu.uniquindio.validations;
 
-import co.edu.uniquindio.model.Department;
 import co.edu.uniquindio.model.UserEntity;
+import co.edu.uniquindio.model.enums.Status;
 import co.edu.uniquindio.repositories.UserEntityRepository;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class UserEntityValidation {
     public UserEntity findUserEntity(int id) throws Exception {
 
         Optional<UserEntity> userEntityOptional = userEntityRepo.findById(id);
-        if (userEntityOptional.isEmpty()) {
+        if (userEntityOptional.isEmpty() || userEntityOptional.get().getStatus().equals(Status.INACTIVE)) {
             throw new ResourceNotFoundException("No existe el usuario");
         }
         UserEntity userEntity = userEntityOptional.get();

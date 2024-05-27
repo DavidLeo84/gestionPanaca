@@ -30,7 +30,7 @@ public class JwtUtils {
 
     public Jws<Claims> parseJwt(String jwtString) throws ExpiredJwtException,
             UnsupportedJwtException, MalformedJwtException, IllegalArgumentException {
-        JwtParser jwtParser = Jwts.parser().verifyWith( getKey() ).build();
+        JwtParser jwtParser = Jwts.parser().verifyWith( getKey()).build();
         return jwtParser.parseSignedClaims(jwtString);
     }
 

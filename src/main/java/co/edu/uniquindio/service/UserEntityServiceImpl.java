@@ -12,6 +12,7 @@ import co.edu.uniquindio.validations.DepartmentValidation;
 import co.edu.uniquindio.validations.UserEntityValidation;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,7 +101,10 @@ public class UserEntityServiceImpl implements IUserEntity {
     }
 
     @Override
-    public void changePassword(ChangePasswordDTO passwordDTO) throws Exception {
+    public void changePassword(ChangePasswordDTO changePasswordDTO) throws Exception {
 
+        UserEntity userEntity = userEntityValidation.findUserEntity(changePasswordDTO.id());
+        userEntity.setPassword(changePasswordDTO.newPassword());
+        userEntityRepo.save(userEntity);
     }
 }
