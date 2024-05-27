@@ -1,22 +1,23 @@
 package co.edu.uniquindio.model;
 
+import co.edu.uniquindio.model.enums.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.envers.Audited;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "departments")
 @Data
-@AllArgsConstructor
+@Entity
+//@Audited
+@ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "departments")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Audited
+
 public class Department implements Serializable {
 
     @Id
@@ -27,6 +28,23 @@ public class Department implements Serializable {
     @Column(name = "department_name")
     private String departmentName;
 
-    @OneToMany
-    private Set<Employee> employees;
+    @OneToMany(mappedBy = "department")
+    private Set<EmployeeEntity> listEmployees;
+
+    @OneToOne(mappedBy = "department")
+    private UserEntity userEntity;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Builder
+    public Department(String departmentName, Set<EmployeeEntity> listEmployees, UserEntity userEntity, Status status) {
+
+        this.departmentName = departmentName;
+        this.listEmployees = listEmployees;
+        this.userEntity = userEntity;
+        this.status = status;
+    }
 }
+
+

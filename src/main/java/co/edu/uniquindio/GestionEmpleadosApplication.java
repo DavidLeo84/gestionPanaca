@@ -1,5 +1,6 @@
 package co.edu.uniquindio;
 
+
 import net.sf.jasperreports.engine.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @SpringBootApplication
 public class GestionEmpleadosApplication {
 
@@ -20,10 +22,11 @@ public class GestionEmpleadosApplication {
         SpringApplication.run(GestionEmpleadosApplication.class, args);
     }
 
+   /* @Bean
+    CommandLineRunner init() {
 
-    @Bean
-    CommandLineRunner init(){
         return args -> {
+
 
             String destinationPath = "src" + File.separator +
                     "main" + File.separator +
@@ -44,10 +47,10 @@ public class GestionEmpleadosApplication {
 
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("voucher_id", "465465456");
-            parameters.put("current_date",formatter.format(localDateTime));
+            parameters.put("current_date", formatter.format(localDateTime));
             parameters.put("amountPaid", new BigDecimal(10000));
-            parameters.put("paymentMethod","PSE");
-            parameters.put("parentName","Pepe Perez");
+            parameters.put("paymentMethod", "PSE");
+            parameters.put("parentName", "Pepe Perez");
             parameters.put("childName", "Pepito Perez");
             parameters.put("imageDir", "classpath:/static/images/");
 
@@ -56,5 +59,7 @@ public class GestionEmpleadosApplication {
             JasperExportManager.exportReportToPdfFile(print, destinationPath);
             System.out.println("Report Created Successfully");
         };
-    }
+
+    }*/
+
 }

@@ -1,61 +1,69 @@
 package co.edu.uniquindio.controllers;
 
-import co.edu.uniquindio.dto.CreateUserDTO;
-import co.edu.uniquindio.model.Role;
+import co.edu.uniquindio.dto.*;
 import co.edu.uniquindio.model.UserEntity;
-import co.edu.uniquindio.model.enums.ERole;
-import co.edu.uniquindio.repositories.UserRepository;
+import co.edu.uniquindio.service.UserEntityServiceImpl;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
+
 
 @RestController
-@RequestMapping("api/")
+@RequiredArgsConstructor
+@RequestMapping("/api/users")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserEntityServiceImpl userEntityService;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "hello world";
+    @PostMapping("/create-user")
+    public ResponseEntity<MensajeDTO<String>> createUserEntity(@Valid @RequestBody RecordUserDTO recordUserDTO) throws Exception {
+
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, userEntityService.createUserEntity(recordUserDTO)));
     }
 
-    @PostMapping("/createUser")
-    public ResponseEntity<?> createUser(@Valid @RequestBody CreateUserDTO userDTO){
+    @PutMapping("/update-user")
+    public ResponseEntity<MensajeDTO<String>> updateUserEntity(@Valid @RequestBody UpdateUserDTO userDTO) throws Exception {
 
-        //Se recupera los roles que vienen del dto en string y se convierten a Role
-        Set<Role> roles = userDTO.roles()
-                .stream()
-                .map(role -> Role
-                        .builder()
-                        .name(ERole.valueOf(role))
-                        .build())
-                .collect(Collectors.toSet());
+        UserEntity user = userEntityService.updateUserEntity(userDTO);
 
-        UserEntity userEntity = UserEntity
-                .builder()
-                .username(userDTO.username())
-                .password(passwordEncoder.encode(userDTO.password()))
-                .roles(roles)
-                .build();
-
-        userRepository.save(userEntity);
-        return ResponseEntity.ok(userEntity);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Se ha nodificado la información del usuario"));
     }
 
-    @DeleteMapping("/deleteUser")
-    public String deleteUser(@RequestParam int id){
+    @GetMapping("/get-user/{id}")
+    public ResponseEntity<MensajeDTO<DetailsUserEntityDTO>> getUserEntity(@PathVariable int id) throws Exception {
 
-        userRepository.deleteById(id);
-        return "Se ha borrado el usuario con id " + id;
+        DetailsUserEntityDTO userEntityDTO = userEntityService.getUserEntity(id);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, userEntityDTO));
     }
+
+    @DeleteMapping("delete-user/{id}")
+    public ResponseEntity<MensajeDTO<String>> deleteUserEntity(@PathVariable int id) throws Exception {
+
+        userEntityService.deleteUserEntity(id);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "El usuario ha sido eliminado"));
+    }
+
+    @GetMapping("/list-users")
+    public ResponseEntity<MensajeDTO<List<ItemUserEntityDTO>>> userEntityList() throws Exception {
+
+        List<ItemUserEntityDTO> userEntityDTO = userEntityService.userEntityList();
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, userEntityDTO));
+    }
+
+    @PutMapping("/change-pass")
+    public ResponseEntity<MensajeDTO<String>> changePassword(@Valid @RequestBody
+                                                             ChangePasswordDTO changePasswordDTO) throws Exception {
+        userEntityService.changePassword(changePasswordDTO);
+        return ResponseEntity.ok().body(new MensajeDTO<>(false, "Se ha nodificado el password"));
+    }
+
+
 }

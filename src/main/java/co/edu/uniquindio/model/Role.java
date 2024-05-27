@@ -6,14 +6,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.envers.Audited;
 
-@Entity
-@Table(name = "roles")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Entity
+
 @ToString
-@Builder
-@Audited
+//@Audited
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -22,4 +22,9 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     private ERole name;
+
+    @Builder
+    public Role(ERole name) {
+        this.name = name;
+    }
 }
