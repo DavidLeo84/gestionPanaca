@@ -1,38 +1,36 @@
 package co.edu.uniquindio.service;
 
-import co.edu.uniquindio.dto.TicketDTO;
 import co.edu.uniquindio.model.ProofOfEmployment;
-import co.edu.uniquindio.model.Ticket;
 import co.edu.uniquindio.model.WorkersReport;
 import co.edu.uniquindio.model.WorkingLetter;
 import co.edu.uniquindio.repositories.EmployeeRepository;
 import co.edu.uniquindio.service.interfaces.IDocument;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
 @Component
+@RequiredArgsConstructor
 public class DocumentServiceImpl implements Serializable {
 
-    @Autowired
-    private EmployeeRepository employeeRepo;
+    private final EmployeeRepository employeeRepo;
 
-    public IDocument getDocument(String type, TicketDTO ticketDTO) throws Exception {
+    public IDocument getDocument(String type, String dni) throws Exception {
+
 
         if (type.equals("carta laboral")) {
             WorkingLetter workingLetter = WorkingLetter.builder()
-                    .employeeRepo(employeeRepo)
-                    .build();
-            workingLetter.createDocument(ticketDTO);
+                    .employeeRepo(employeeRepo).build();
+            workingLetter.createDocument(dni);
             return workingLetter;
         } else if (type.equals("constancia laboral")) {
-            return new ProofOfEmployment();
-        } else if (type.equals("reporte de empleados")) {
-            return new WorkersReport();
-        }
-        Ticket ticket = Ticket.builder().build();
-        return ticket;
+            ProofOfEmployment proofOfEmployment = ProofOfEmployment.builder().build();
+            return proofOfEmployment;
 
+        } else {
+            WorkersReport workersReport = WorkersReport.builder().build();
+            return workersReport;
+        }
     }
 }

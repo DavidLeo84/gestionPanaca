@@ -1,10 +1,6 @@
 package co.edu.uniquindio.test;
 
-import co.edu.uniquindio.dto.DetailsEmployeeDTO;
-import co.edu.uniquindio.dto.TicketDTO;
-import co.edu.uniquindio.model.enums.EnumPay;
 import co.edu.uniquindio.service.DocumentServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,19 +30,13 @@ public class DocumentsTest {
     public void createDocumentTest() throws Exception {
 
         // Given - Dado o condicion previa o configuración
-        TicketDTO ticketDTO = new TicketDTO(
-                "3243253242",
-                "David",
-                "Romero",
-                "2024/05/25",
-                "leoromero141@gmail.com",
-                "Desarrollador"
-        );
+
+
         // When - Acción o el comportamiento que se va a probar
-        document.getDocument("carta laboral", ticketDTO);
+        document.getDocument("carta laboral", "3243253242");
 
         //Then - Verificar la salida
 //        System.out.println("department.toString() = " + department.toString());
-//        assertThat(department).isNotNull();
+        //assertThat(document).isNotNull();
     }
 }
