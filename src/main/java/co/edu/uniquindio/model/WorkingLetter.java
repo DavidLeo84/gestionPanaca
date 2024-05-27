@@ -1,14 +1,10 @@
 package co.edu.uniquindio.model;
 
-import co.edu.uniquindio.dto.TicketDTO;
-import co.edu.uniquindio.model.enums.Status;
 import co.edu.uniquindio.repositories.EmployeeRepository;
 import co.edu.uniquindio.service.interfaces.IDocument;
-import co.edu.uniquindio.validations.EmployeeValidation;
 import co.edu.uniquindio.validations.exceptions.ResourceNotFoundException;
 import lombok.*;
 import net.sf.jasperreports.engine.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,16 +21,19 @@ import java.util.Optional;
 @Builder
 @Service
 @Transactional
-@RequiredArgsConstructor
 /*Carta laboral*/
 public class WorkingLetter implements IDocument {
 
     private final EmployeeRepository employeeRepo;
 
+    public WorkingLetter(EmployeeRepository employeeRepo) {
+        this.employeeRepo = employeeRepo;
+    }
+
     @Override
-    public void createDocument(TicketDTO ticketDTO) throws Exception {
+    public void createDocument(String dni) throws Exception {
         try {
-            Optional<EmployeeEntity> optionalEmployee = employeeRepo.findByDni(ticketDTO.dni());
+            Optional<EmployeeEntity> optionalEmployee = employeeRepo.findByDni(dni);
             if (optionalEmployee.isEmpty()) {
                 throw new ResourceNotFoundException("No existe la persona ");
             }
